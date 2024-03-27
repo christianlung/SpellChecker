@@ -63,15 +63,26 @@ def compare(dictionary):
     print(f"Wagner-fisher: {wagner_avg}")
     print(f"Levanstein: {levanstein_avg}")
 
+def suggestion(word, database):   #implement support for LRU cache of size 1000 or dictionary
+    corrections = []
+    for correct_word in database:
+        distance = wagner_fisher(word, correct_word)
+        if distance<=5: corrections.append((correct_word, distance))
+    corrections.sort(key=lambda x: x[1])
+    return corrections[:3]
+
 def main():
     dictionary = setup_dictionary()
-    compare(dictionary)
+    # compare(dictionary)
 
 if __name__ == "__main__":
     main()
 
 
-#do i make a javascript frontend to display the data
-
-#unrecognized word on line 2
-#did you make an error? Fix to this, this, this, or leave it 1,2,3,4, print -------, output to a new file?
+#todo:
+#   implement document autocorrecter
+        #unrecognized word on line 2
+        #did you make an error? Fix to this, this, this, or leave it 1,2,3,4, print -------, output to a new file?
+        #keep track of capital or not and punctuation
+#   Things to improve: make file easier to load in, implement a LRU cache
+#   Maybe make javascript frontend to display wagner-fisher approach
