@@ -1,8 +1,5 @@
-import random
-import time
-
 def setup_dictionary():
-    with open('/Users/christianlung/SpellChecker/words.txt', 'r') as file:
+    with open('/Users/christianlung/SpellChecker/dictionary.txt', 'r') as file:
         return [line.strip() for line in file]
 
 #wagner fisher approach
@@ -31,38 +28,6 @@ def levanstein(w1,w2):
     else:
         return 1 + min(levanstein(w1[1:], w2), levanstein(w1, w2[1:]), levanstein(w1[1:], w2[1:]))
 
-def compare(dictionary):
-    wagner_avg = 0
-    levanstein_avg = 0
-    n_trials = 10000
-    for _ in range(n_trials):
-        idx_1 = random.randint(0,466549)
-        idx_2 = random.randint(0,466549)
-
-        #adjust words to feasible range for runtime testing
-        while((idx_2 - idx_1) > 30000 or len(dictionary[idx_1])>5 or len(dictionary[idx_2])>5):
-            idx_1 = random.randint(0,466549)
-            idx_2 = random.randint(0,466549)
-
-        word_1 = dictionary[idx_1]
-        word_2 = dictionary[idx_2]
-
-        w_start = time.time()
-        wagner_fisher(word_1, word_2)
-        w_end = time.time()
-        wagner_avg += w_end - w_start
-
-        l_start = time.time()
-        levanstein(word_1, word_2)
-        l_end = time.time()
-        levanstein_avg += l_end - l_start
-
-    wagner_avg /= n_trials
-    levanstein_avg /= n_trials
-    print("Comparing Average Computing Time...")
-    print(f"Wagner-fisher: {wagner_avg}")
-    print(f"Levanstein: {levanstein_avg}")
-
 def suggestion(word, database):   #implement support for LRU cache of size 1000 or dictionary
     corrections = []
     for correct_word in database:
@@ -71,9 +36,19 @@ def suggestion(word, database):   #implement support for LRU cache of size 1000 
     corrections.sort(key=lambda x: x[1])
     return corrections[:3]
 
+def clean_doc(document):
+    with open(document, 'r') as file:
+        raw_data = file.read()
+    
+    is_capital = False
+    buffer = ""
+    clean_data = ""
+    for pointer in range(len(raw_data)):
+        pass
+
 def main():
     dictionary = setup_dictionary()
-    # compare(dictionary)
+
 
 if __name__ == "__main__":
     main()
