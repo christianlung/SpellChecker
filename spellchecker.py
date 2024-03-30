@@ -25,13 +25,6 @@ def wagner_fisher(w1,w2):
             if i==len2 and j==len1:
                 return closest_step
 
-def levanstein(w1,w2):
-    if len(w1)==0: return len(w2)
-    elif len(w2)==0: return len(w1)
-    elif w1[0]==w2[0]: return levanstein(w1[1:], w2[1:])
-    else:
-        return 1 + min(levanstein(w1[1:], w2), levanstein(w1, w2[1:]), levanstein(w1[1:], w2[1:]))
-
 def suggestion(word, n_suggestions=5):   #implement support for LRU cache of size 1000 or dictionary
     setup_dictionary()
     corrections = []
@@ -50,8 +43,11 @@ def clean_doc(document):
     clean_data = ""
     n_suggests = 5
 
-    for pointer in range(len(raw_data)):
-        character = raw_data[pointer]
+    for pointer in range(len(raw_data)+1):
+        if pointer==len(raw_data): #to handle if the last word is mispelled
+            character = ""
+        else:
+            character = raw_data[pointer]
         if character.isalpha() or character == "'":
             buffer += character
         else:
@@ -72,6 +68,7 @@ def clean_doc(document):
                 while not valid:
                     try:
                         option = int(input("Enter an option: "))
+                        print("\n")
                     except ValueError:
                         print("Please enter a valid integer.")
                     if option>=1 and option<=n_suggests+1:
@@ -83,7 +80,7 @@ def clean_doc(document):
                     #catch exception where word is not a number? then can you accept words starting with number?
             clean_data += buffer + character
             buffer = ""
-    return clean_data + buffer  #if document ends with word (edge case)
+    return clean_data 
         
 
 def main():
@@ -95,6 +92,8 @@ if __name__ == "__main__":
 
 
 #todo:
+    
+#   make test cases for where word is not number, if last word is mispelled
 #   output to a new file?
 #   Things to improve: make file easier to load in, implement a LRU cache
 #   maybe include most popular proper nouns like brands and places
@@ -104,3 +103,5 @@ if __name__ == "__main__":
 
     #make dictionary into class, with serial, and deserial, create new list
     #search dictionary, query for suggestions
+
+    #past or plural? fix it yourself option
