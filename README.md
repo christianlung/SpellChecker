@@ -15,3 +15,14 @@ Wagner-fisher: 1.3365840911865235e-05
 Levanstein: 0.00029788732528686525
 ```
 The Wagner-fisher approach proves more than 20x faster per word over the Levanstein approach. This difference is only compounded as the words of comparison grow longer.
+
+<h2>Document Autocorrecter Usage</h2>
+Sample input: <b>hello wrld</b>
+
+```
+Spelling error: wrld
+Did you mean: 
+1. wild         2. wold         3. world        4. 3rd  5. Ald  6. (Leave as is)
+Enter an option: 3
+```
+Sample output: <b>hello world</b>
