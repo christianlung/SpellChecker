@@ -10,7 +10,7 @@ def levanstein(w1,w2):
         return 1 + min(levanstein(w1[1:], w2), levanstein(w1, w2[1:]), levanstein(w1[1:], w2[1:]))
 
 def compare():
-    setup_dictionary()
+    database = setup_dictionary()
     wagner_avg = 0
     levanstein_avg = 0
     n_trials = 10000

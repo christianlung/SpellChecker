@@ -5,6 +5,7 @@ def setup_dictionary():
     if database is None:
         with open('/Users/christianlung/SpellChecker/dictionary.txt', 'r') as file:
             database = [line.strip() for line in file]
+    return database
 
 def wagner_fisher(w1,w2):
     len1 = len(w1)
@@ -25,7 +26,7 @@ def wagner_fisher(w1,w2):
             if i==len2 and j==len1:
                 return closest_step
 
-def suggestion(word, n_suggestions=5):   #implement support for LRU cache of size 1000 or dictionary
+def suggestion(word, n_suggestions=5):
     setup_dictionary()
     corrections = []
     for correct_word in database:
@@ -35,7 +36,6 @@ def suggestion(word, n_suggestions=5):   #implement support for LRU cache of siz
     return [c[0] for c in corrections[:n_suggestions]]
 
 def clean_doc(document):
-    #what if last word is mispelled
     setup_dictionary()
     with open(document, 'r') as file:
         raw_data = file.read().strip()
@@ -92,16 +92,40 @@ if __name__ == "__main__":
 
 
 #todo:
-    
-#   make test cases for where word is not number, if last word is mispelled
-#   output to a new file?
-#   Things to improve: make file easier to load in, implement a LRU cache
-#   maybe include most popular proper nouns like brands and places
-#   Maybe make javascript frontend to display wagner-fisher approach
-    
-    #store list as pickle file
+    #make database into another class that supports 
+        #1. searching for words (contains)
+        #2. update the database if None
+        #3. Serializing and deserializing list from and to pickle file
+        #4. provide suggestions
+    #make test cases
+        #1. what if word is number  
+            #how to handle capitals
+        #2. punctuation, spaces, capitals, and plurals
+    #additional support
+        # output revised to new file
+        # popular poper nouns like brands and places
+        # add your own fix option
+        # option to add to dictionary
+        # command line tool for user ease
+            #options
+                #output to file (file name needs to be provided and validated)
+    #efficiency
+        # maybe use trie or LRU cache or Amazon S3 and Elastic Search or binary search to search contains first
+            #traverse down the tree with each letter, go up tree with delete
+        # make file easier to load in
+            #consider switching dictionary files
+    #extra
+        #Maybe make javascript frontend to display wagner-fisher approach
+        #Connect it to a service (document submission or texting) as prefilter
+            #then no need user input, autocorrect based off logic
+        #rank autocorrect suggestions based off which side of keyboard
+        #try to make neural network version with hidden markov model and POS tagging
+    #find additional technologies to implement
 
-    #make dictionary into class, with serial, and deserial, create new list
-    #search dictionary, query for suggestions
+    #next projects:
+        #word autocomplete
+        #data streams and data visualization (Kafka, Tableau)
+            #sentiment analysis (AI) and analytics of streams
+    
 
-    #past or plural? fix it yourself option
+    # Here is false negative
