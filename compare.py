@@ -1,4 +1,4 @@
-from spellchecker import database, wagner_fisher, setup_dictionary
+from spellchecker import wagner_fisher, setup_dictionary
 import random
 import time
 

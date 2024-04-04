@@ -54,7 +54,6 @@ def clean_doc(document):
             #what if you come across 2 non-letters in a row
             if len(buffer)>0 and buffer.lower() not in database:
                 #get user input as to what the word should be
-                #optimizations, if mistake is less than 1, autocorrect it
                 #if there are ties, base on side of keyboard
                 #option to enter your own word?
                 suggestions = suggestion(buffer, n_suggestions=n_suggests)
@@ -81,11 +80,16 @@ def clean_doc(document):
             clean_data += buffer + character
             buffer = ""
     return clean_data 
-        
+
+def write_data(path, data):
+    with open(path, "w") as file:
+        file.write(data)
 
 def main():
-    print(clean_doc('document.txt'))
-
+    clean_data = clean_doc('document.txt')
+    print(clean_data)
+    write_data("output.txt", clean_data)
+    
 
 if __name__ == "__main__":
     main()
@@ -127,5 +131,3 @@ if __name__ == "__main__":
         #data streams and data visualization (Kafka, Tableau)
             #sentiment analysis (AI) and analytics of streams
     
-
-    # Here is false negative
